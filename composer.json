@@ -1,0 +1,10 @@
+{
+  "name": "ubc-web-services/ubc_add_to_calendar",
+  "description": "Adds a block with Add to Calendar functionality to UBC Events",
+  "type": "drupal-module",
+  "authors": [{
+    "name": "Kennedy, David",
+    "email": "david.kennedy@ubc.ca"
+  }],
+  "require": {}
+}
