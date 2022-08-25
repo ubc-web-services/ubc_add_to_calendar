@@ -1,9 +1,8 @@
 name: UBC Add to Calendar
 type: module
-description: Adds a block with Add to Calendar functionality to UBC Events
+description: Helper functions for preprocessing UBC Events
 package: UBC Web Services
 dependencies:
-  - ubc_web_services/ubc_event
+  - ubc_event:ubc_event
 
-core: '8.x'
 core_version_requirement: ^8 || ^9
