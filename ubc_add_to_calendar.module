@@ -5,7 +5,7 @@ function ubc_add_to_calendar_preprocess_node(&$variables) {
     if ($variables['node']->getType() == 'ubc_event') {
 
     	$nid = $variables['node']->id();
-    	$node = node_load($nid);
+    	$node = Drupal\node\Entity\Node::load($nid);
 
     	$google_cal_link = ubc_add_to_calendar_addToGoogleCal($node);
 			$variables['content']['google_cal_link'] = array('#markup' => $google_cal_link);
@@ -28,7 +28,43 @@ function ubc_add_to_calendar_addToICal(&$node) {
 	$details = strip_tags($details);
 
 	$location = $node->get('field_event_location')->getValue();
-	$location = $location[0]['address_line1'].', '.$location[0]['address_line2'].', '.$location[0]['locality'].', '.$location[0]['administrative_area'].', '.$location[0]['postal_code'].', '.$location[0]['country_code'];
+
+	$address_line1 = '';
+	$address_line2 = '';
+	$locality = '';
+	$administrative_area = '';
+	$postal_code = '';
+	$country_code = '';
+	if(isset($location)) {
+		if(isset($location[0]['address_line1'])) {
+			$address_line1 = $location[0]['address_line1'];
+		}
+
+		if(isset($location[0]['address_line2'])) {
+			$address_line2 = ', '.$location[0]['address_line2'];
+		}
+
+		if(isset($location[0]['locality'])) {
+			$locality = ', '.$location[0]['locality'];
+		}
+
+		if(isset($location[0]['administrative_area'])) {
+			$administrative_area = ', '.$location[0]['administrative_area'];
+		}
+
+		if(isset($location[0]['postal_code'])) {
+			$postal_code = ', '.$location[0]['postal_code'];
+		}
+
+		if(isset($location[0]['country_code'])) {
+			$country_code = ', '.$location[0]['country_code'];
+		}
+
+		$location = $address_line1.$address_line2.$locality.$administrative_area.$postal_code.$country_code;
+	}
+	else {
+		$location = '';
+	}
 
 	$dates = $node->get('field_event_date')->getValue();
 
@@ -57,7 +93,7 @@ function ubc_add_to_calendar_addToGoogleCal(&$node) {
 	if(isset($dates[0]['value'])) {
 
 		$start_date = $dates[0]['value'];
-		$userTimezone = new DateTimeZone(drupal_get_user_timezone());
+		$userTimezone = new DateTimeZone(date_default_timezone_get());
 		$gmtTimezone = new DateTimeZone('GMT');
 		$startDateTime = new DateTime($start_date, $gmtTimezone);
 		$offset = $userTimezone->getOffset($startDateTime);
@@ -86,8 +122,44 @@ function ubc_add_to_calendar_addToGoogleCal(&$node) {
 	$details = '&details='.$details;
 
 	$location = $node->get('field_event_location')->getValue();
-	$location = $location[0]['address_line1'].', '.$location[0]['address_line2'].', '.$location[0]['locality'].', '.$location[0]['administrative_area'].', '.$location[0]['postal_code'].', '.$location[0]['country_code'];
-	$location = '&location='.urlencode($location);
+
+	$address_line1 = '';
+	$address_line2 = '';
+	$locality = '';
+	$administrative_area = '';
+	$postal_code = '';
+	$country_code = '';
+	if(isset($location)) {
+		if(isset($location[0]['address_line1'])) {
+			$address_line1 = $location[0]['address_line1'];
+		}
+
+		if(isset($location[0]['address_line2'])) {
+			$address_line2 = ', '.$location[0]['address_line2'];
+		}
+
+		if(isset($location[0]['locality'])) {
+			$locality = ', '.$location[0]['locality'];
+		}
+
+		if(isset($location[0]['administrative_area'])) {
+			$administrative_area = ', '.$location[0]['administrative_area'];
+		}
+
+		if(isset($location[0]['postal_code'])) {
+			$postal_code = ', '.$location[0]['postal_code'];
+		}
+
+		if(isset($location[0]['country_code'])) {
+			$country_code = ', '.$location[0]['country_code'];
+		}
+
+		$location = $address_line1.$address_line2.$locality.$administrative_area.$postal_code.$country_code;
+		$location = '&location='.urlencode($location);
+	}
+	else {
+		$location = '';
+	}
 
 	return 'https://www.google.com/calendar/render?action=TEMPLATE&text='.$title.$dates.'&ctz=America/Vancouver'.$details.$location.'&sf=true&output=xml';
 }
