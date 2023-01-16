@@ -73,7 +73,7 @@ function ubc_add_to_calendar_addToICal(&$node) {
 	$start_date = $startDateTime->format('Ymd').'T'.$startDateTime->format('His').'Z';
 
 	$end_date = $dates[0]['end_value'];
-	$endDateTime = new DateTime($end_date);
+	$endDateTime = new DateTime($end_date ?? '');
 	$end_date = $endDateTime->format('Ymd').'T'.$endDateTime->format('His').'Z';
 
 	return 'data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ADTSTART:'.$start_date.'%0ADTEND:'.$end_date.'%0ASUMMARY:'.$title.'%0ADESCRIPTION:'.$details.'%0ALOCATION:'.$location.'%0AEND:VEVENT%0AEND:VCALENDAR';
