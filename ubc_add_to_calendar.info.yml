@@ -4,5 +4,4 @@ description: Helper functions for preprocessing UBC Events
 package: UBC Web Services
 dependencies:
   - ubc_event:ubc_event
-
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9 || ^10
