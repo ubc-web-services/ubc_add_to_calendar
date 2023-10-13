@@ -25,7 +25,7 @@ function ubc_add_to_calendar_addToICal(&$node) {
 	$title = $node->getTitle();
 
 	$details = $node->get('body')->value;
-	$details = strip_tags($details);
+	$details = strip_tags(strval($details));
 
 	$location = $node->get('field_event_location')->getValue();
 
@@ -118,7 +118,7 @@ function ubc_add_to_calendar_addToGoogleCal(&$node) {
 	}
 
 	$details = $node->get('body')->value;
-	$details = urlencode(strip_tags($details));
+	$details = urlencode(strip_tags(strval($details)));
 	$details = '&details='.$details;
 
 	$location = $node->get('field_event_location')->getValue();
