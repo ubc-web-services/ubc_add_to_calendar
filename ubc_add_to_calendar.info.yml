@@ -2,4 +2,4 @@ name: UBC Add to Calendar
 type: module
 description: Helper functions for preprocessing UBC Events
 package: UBC Web Services
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9 || ^10 || ^11
