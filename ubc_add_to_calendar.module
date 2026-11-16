@@ -1,6 +1,6 @@
 <?php
 
-function ubc_add_to_calendar_preprocess_node(&$variables) {
+function ubc_add_to_calendar_preprocess_node(&$variables): void {
 
     if ($variables['node']->getType() == 'ubc_event') {
 
@@ -8,11 +8,10 @@ function ubc_add_to_calendar_preprocess_node(&$variables) {
     	$node = Drupal\node\Entity\Node::load($nid);
 
     	$google_cal_link = ubc_add_to_calendar_addToGoogleCal($node);
-			$variables['content']['google_cal_link'] = array('#markup' => $google_cal_link);
-
-			$ical_link = ubc_add_to_calendar_addToICal($node);
-			$variables['content']['ical_link'] = array('#markup' => $ical_link);
-			$variables['content']['outlook_link'] = array('#markup' => $ical_link);
+		$variables['content']['google_cal_link'] = ['#markup' => $google_cal_link];
+		$ical_link = ubc_add_to_calendar_addToICal($node);
+		$variables['content']['ical_link'] = ['#markup' => $ical_link];
+        $variables['content']['outlook_link'] = ['#markup' => $ical_link];
     }
 }
 
